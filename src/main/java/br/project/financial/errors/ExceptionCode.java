@@ -1,0 +1,10 @@
+package br.project.financial.errors;
+
+public enum ExceptionCode {
+    ENTITY_NOT_FOUND,
+    INVALID_PERIOD,
+    NO_TRANSACTIONS_FOUND,
+    API_FIELDS_INVALID,
+    INVALID_TRANSACTION_TYPE,
+    INSUFFICIENT_BRANCHES_FOR_COMPARISON
+}
