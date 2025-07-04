@@ -14,15 +14,16 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class CalculatePaidExpensesTotalUseCase {
+public class CalculateQuantitySoldUseCase {
 
     private final TransactionRepository repository;
 
     public TotalAmountOutputDTO execute(
+            TransactionType type,
+            String categoryName,
+            String costCenterName,
             LocalDate start,
-            LocalDate end,
-            String expensePurposeName,
-            String costCenterName
+            LocalDate end
     ) {
         if (start == null || end == null) {
             throw new BusinessRuleException(ExceptionCode.INVALID_PERIOD,
@@ -32,38 +33,30 @@ public class CalculatePaidExpensesTotalUseCase {
             throw new BusinessRuleException(ExceptionCode.INVALID_PERIOD,
                     Map.of("startDate", "must be before or equal to endDate"));
         }
-
-        if (expensePurposeName == null || expensePurposeName.isBlank()) {
+        if (categoryName == null || categoryName.isBlank()) {
             throw new BusinessRuleException(ExceptionCode.INVALID_FILTER,
-                    Map.of("purpose", "must be provided"));
+                    Map.of("category", "must be provided"));
         }
-
         if (costCenterName == null || costCenterName.isBlank()) {
             throw new BusinessRuleException(ExceptionCode.INVALID_FILTER,
                     Map.of("costCenter", "must be provided"));
         }
 
-        TotalAmountOutputDTO result = repository.sumPurchasesByPurposeAndCenterAndPeriod(
-                TransactionType.DESPESA,
-                expensePurposeName,
-                costCenterName,
-                start,
-                end
+        TotalAmountOutputDTO result = repository.sumQuantitySoldByCategoryAndCenterAndPeriod(
+                type, categoryName, costCenterName, start, end
         );
-;
+
         if (result == null
                 || result.getTotal() == null
                 || new BigDecimal(result.getTotal()).compareTo(BigDecimal.ZERO) == 0) {
             throw new NoTransactionsFoundException(Map.of(
-                    "type",             TransactionType.DESPESA.name(),
-                    "paymentStatus",    "PAGA",
-                    "purpose",          expensePurposeName,
-                    "startDate",        start.toString(),
-                    "endDate",          end.toString(),
-                    "costCenterName",   costCenterName
+                    "type", type.name(),
+                    "category", categoryName,
+                    "costCenter", costCenterName,
+                    "startDate", start.toString(),
+                    "endDate", end.toString()
             ));
         }
-
         return result;
     }
 }

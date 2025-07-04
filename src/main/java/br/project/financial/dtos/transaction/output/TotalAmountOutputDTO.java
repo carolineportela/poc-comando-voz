@@ -7,11 +7,11 @@ import java.math.RoundingMode;
 
 @Getter
 public class TotalAmountOutputDTO {
-    private final String label;
+    private final String costCenterName;
     private final String total;
 
-    public TotalAmountOutputDTO(String label, BigDecimal total) {
-        this.label = label;
+    public TotalAmountOutputDTO(String costCenterName, BigDecimal total) {
+        this.costCenterName = costCenterName;
         this.total = total != null
                 ? total.setScale(2, RoundingMode.HALF_UP).toPlainString()
                 : null;

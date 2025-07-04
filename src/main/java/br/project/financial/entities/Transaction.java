@@ -54,7 +54,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,9 +95,15 @@ public class Transaction {
     @Column(name = "payment_date")
     private LocalDate paymentDate;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "expense_purposes_id")
-    private ExpensePurposes expensePurposes;
+//    @ManyToOne(optional = false)
+//    @JoinColumn(name = "expense_purposes_id")
+//    private ExpensePurposes expensePurpose;
+
+    @ManyToOne
+    @JoinColumn(name = "expense_purpose_id",  // EXATAMENTE esse nome, sem "s"
+            referencedColumnName = "id",
+            nullable = true)
+    private ExpensePurpose expensePurpose;
 
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TransactionItem> items = new ArrayList<>();
