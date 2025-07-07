@@ -2,6 +2,7 @@ package br.project.financial.dtos.transaction.output;
 
 import br.project.financial.enums.TransactionType;
 import lombok.Getter;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -20,11 +21,11 @@ public class FilteredTotalOutputDTO {
             String costCenterName,
             BigDecimal total
     ) {
-        this.type           = type.name();
-        this.purpose        = purpose;
-        this.categoryName   = categoryName;
+        this.type = type.name();
+        this.purpose = purpose;
+        this.categoryName = categoryName;
         this.costCenterName = costCenterName;
-        this.total          = total != null
+        this.total = total != null
                 ? total.setScale(2, RoundingMode.HALF_UP).toPlainString()
                 : null;
     }
