@@ -129,6 +129,8 @@ public class TransactionRestController implements TransactionControllerSpecs {
     /// //////////////////////////////////////////////////////////////////////////////////
     // ## Total filtrado por tipo, propósito, categoria e centro de custo
     //# Quanto foi comprado de algodao (essa query é pra qualquer tipo de produto)
+
+    //arrumar ajuste de costCenterName que esta retornando a category
     @GetMapping("/total")
     public ResponseEntity<FilteredTotalOutputDTO> getFilteredTotal(
             @RequestParam("type") TransactionType type,
@@ -149,6 +151,8 @@ public class TransactionRestController implements TransactionControllerSpecs {
     /// //////////////////////////////////////////////////////////////////////////////////
     //## TRAZ VALOR TOTAL de todas despesas DE UM CENTRO DE CUSTO
     //## Quanto foi pago  (todas a contas)
+
+    //arrumar ajuste de costCenterName que esta retornando a category
     @GetMapping("/total/expenses")
     public ResponseEntity<TotalAmountOutputDTO> getExpensesByCenter(
             @RequestParam("startDate")
@@ -172,6 +176,7 @@ public class TransactionRestController implements TransactionControllerSpecs {
     /// //////////////////////////////////////////////////////////////////////////////////
     //#Quanto foi vendido em valor
     //#valor total de vendas de uma categoria de produto de um centro de custo
+    //arrumar ajuste de costCenterName que esta retornando a category
     @GetMapping("/total/sales")
     public ResponseEntity<TotalAmountOutputDTO> getSalesByCategoryAndCenter(
             @RequestParam("type")       TransactionType type,

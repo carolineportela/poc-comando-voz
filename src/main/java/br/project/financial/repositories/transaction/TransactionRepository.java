@@ -200,11 +200,12 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     );
 
     /// //////////////////////////////////////////////////////////////////////////////////
-    //#Quanto foi vendido em valor
-    //#valor total de vendas de uma categoria de produto de um centro de custo
+
+    // Quanto foi vendido em valor
+    // valor total de vendas de uma categoria de produto de um centro de custo
     @Query("""
                 SELECT new br.project.financial.dtos.transaction.output.TotalAmountOutputDTO(
-                    :categoryName,
+                    :costCenterName,                  
                     SUM(item.quantity * item.unitPrice)
                 )
                 FROM Transaction t
@@ -220,18 +221,19 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             """)
     TotalAmountOutputDTO sumSalesByCategoryAndCenterAndPeriod(
             @Param("transactionType") TransactionType transactionType,
-            @Param("categoryName") String categoryName,
-            @Param("costCenterName") String costCenterName,
-            @Param("start") LocalDate start,
-            @Param("end") LocalDate end
+            @Param("categoryName")    String categoryName,
+            @Param("costCenterName")  String costCenterName,
+            @Param("start")           LocalDate start,
+            @Param("end")             LocalDate end
     );
+
 
     /// //////////////////////////////////////////////////////////////////////////////////
     //#Quanto foi vendido em KG
     //#valor total de vendas de uma categoria de produto de um centro de custo por kg
     @Query("""
                 SELECT new br.project.financial.dtos.transaction.output.TotalAmountOutputDTO(
-                    :categoryName,
+                    :costCenterName,                  
                     SUM(item.quantity)
                 )
                 FROM Transaction t
@@ -248,11 +250,15 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             """)
     TotalAmountOutputDTO sumQuantitySoldByCategoryAndCenterAndPeriod(
             @Param("transactionType") TransactionType transactionType,
-            @Param("categoryName") String categoryName,
-            @Param("costCenterName") String costCenterName,
-            @Param("start") LocalDate start,
-            @Param("end") LocalDate end
+            @Param("categoryName")    String categoryName,
+            @Param("costCenterName")  String costCenterName,
+            @Param("start")           LocalDate start,
+            @Param("end")             LocalDate end
     );
+
+
+
+
 
     /// //////////////////////////////////////////////////////////////////////////////////
     // RETORNA TODAS TRANSACTIONS
